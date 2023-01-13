@@ -250,7 +250,7 @@ function(setup_target_for_coverage_lcov)
         COMMAND ${LCOV_PATH} ${Coverage_LCOV_ARGS} --gcov-tool ${GCOV_PATH} --remove ${Coverage_NAME}.total ${LCOV_EXCLUDES} --output-file ${Coverage_NAME}.info
 
         # Generate HTML output
-        COMMAND ${GENHTML_PATH} ${GENHTML_EXTRA_ARGS} ${Coverage_GENHTML_ARGS} -o ${Coverage_NAME} ${Coverage_NAME}.info
+        COMMAND ${GENHTML_PATH} ${GENHTML_EXTRA_ARGS} ${Coverage_GENHTML_ARGS} -o ${Coverage_NAME}.html ${Coverage_NAME}.info
 
         # Set output files as GENERATED (will be removed on 'make clean')
         BYPRODUCTS
@@ -258,7 +258,7 @@ function(setup_target_for_coverage_lcov)
         ${Coverage_NAME}.capture
         ${Coverage_NAME}.total
         ${Coverage_NAME}.info
-        ${Coverage_NAME}  # report directory
+        ${Coverage_NAME}.html  # report directory
 
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
         DEPENDS ${Coverage_DEPENDENCIES}
