@@ -22,18 +22,18 @@
 #  JSONCPP_FOUND - True if JsonCpp was found.
 #
 # Original Author:
-# 2016 Ryan Pavlik <ryan.pavlik@gmail.com>
+# 2016 Rylie Pavlik <rylie@ryliepavlik.com>
 # Incorporates work from the module contributed to VRPN under the same license:
 # 2011 Philippe Crassous (ENSAM ParisTech / Institut Image) p.crassous _at_ free.fr
 #
 # Copyright 2011, Philippe Crassous
 # Copyright 2016, Sensics, Inc.
 #
-# SPDX-License-Identifier: BSL-1.0
-#
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE_1_0.txt or copy at
 # http://www.boost.org/LICENSE_1_0.txt)
+#
+# SPDX-License-Identifier: BSL-1.0
 
 set(__jsoncpp_have_namespaced_targets OFF)
 set(__jsoncpp_have_interface_support OFF)

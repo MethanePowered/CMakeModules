@@ -31,17 +31,19 @@
 # Requires CMake 2.6 or newer (uses the 'function' command)
 #
 # Original Author:
-# 2009-2020 Ryan Pavlik <ryan.pavlik@gmail.edu> <abiryan@ryand.net>
-# http://academic.cleardefinition.com
+# 2009-2020 Rylie Pavlik <rylie@ryliepavlik.com>
+# https://ryliepavlik.com/
 #
-# Copyright 2009-2013, Iowa State University.
-# Copyright 2018-2019, caseymcc
-# Copyright 2020, Ryan Pavlik
+# Copyright 2020, Rylie Pavlik
 # Copyright 2014-2019, Contributors
-# SPDX-License-Identifier: BSL-1.0
+# Copyright 2018-2019, caseymcc
+# Copyright 2009-2013, Iowa State University.
+#
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE_1_0.txt or copy at
 # http://www.boost.org/LICENSE_1_0.txt)
+#
+# SPDX-License-Identifier: BSL-1.0
 
 if(__create_launchers)
     return()
@@ -218,8 +220,9 @@ macro(_launcher_produce_vcproj_user)
         file(READ "${_launchermoddir}/perconfig.${VCPROJ_TYPE}.user.in"
              _perconfig)
 
-        #generator expressions do not play well with ">"
+        #generator expressions do not play well with ">" and ","
         string(REPLACE ">" "$<ANGLE-R>" _perconfig ${_perconfig})
+        string(REPLACE "," "$<COMMA>" _perconfig ${_perconfig})
 
         set(config_types)
         if(CMAKE_CONFIGURATION_TYPES)

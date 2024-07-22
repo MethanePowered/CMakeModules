@@ -1,9 +1,9 @@
-# Copyright 2019-2022, Collabora, Ltd.
+# Copyright 2019-2023, Collabora, Ltd.
 #
 # SPDX-License-Identifier: BSL-1.0
 #
 # Maintained by:
-# 2019-2022 Ryan Pavlik <ryan.pavlik@collabora.com> <ryan.pavlik@gmail.com>
+# 2019-2023 Rylie Pavlik <rylie.pavlik@collabora.com> <rylie@ryliepavlik.com>
 
 #[[.rst:
 GenerateVulkanApiLayerManifest
@@ -31,11 +31,12 @@ The following functions are provided by this module:
 
   Generates a layer manifest at install time and installs it where desired::
 
-    generate_vulkan_api_layer_manifest_buildtree(
+    generate_vulkan_api_layer_manifest_at_install(
         MANIFEST_TEMPLATE <template>       # The template for your manifest file
         LAYER_TARGET <target>              # Name of your layer target
         DESTINATION <dest>                 # The install-prefix-relative path to install the manifest to.
         RELATIVE_LAYER_DIR <dir>           # The install-prefix-relative path that the layer library is installed to.
+        [COMPONENT <comp>]                 # If present, the component to place the manifest in.
         [ABSOLUTE_LAYER_PATH|              # If present, path in generated manifest is absolute
          LAYER_DIR_RELATIVE_TO_MANIFEST <dir>]
                                            # If present (and ABSOLUTE_LAYER_PATH not present), specifies the
@@ -43,6 +44,9 @@ The following functions are provided by this module:
         [OUT_FILENAME <outfilename>        # Optional: Alternate name of the manifest file to generate
         )
 #]]
+
+# This module is mostly just argument parsing, the guts are in GenerateKhrManifest
+
 get_filename_component(_VK_MANIFEST_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 include("${_VK_MANIFEST_CMAKE_DIR}/GenerateKhrManifest.cmake")
 
@@ -77,8 +81,14 @@ endfunction()
 
 function(generate_vulkan_api_layer_manifest_at_install)
     set(options ABSOLUTE_LAYER_PATH)
-    set(oneValueArgs MANIFEST_TEMPLATE LAYER_TARGET DESTINATION OUT_FILENAME
-                     LAYER_DIR_RELATIVE_TO_MANIFEST RELATIVE_LAYER_DIR)
+    set(oneValueArgs
+        MANIFEST_TEMPLATE
+        DESTINATION
+        OUT_FILENAME
+        COMPONENT
+        LAYER_TARGET
+        LAYER_DIR_RELATIVE_TO_MANIFEST
+        RELATIVE_LAYER_DIR)
     set(multiValueArgs)
     cmake_parse_arguments(_genmanifest "${options}" "${oneValueArgs}"
                           "${multiValueArgs}" ${ARGN})
@@ -108,6 +118,9 @@ function(generate_vulkan_api_layer_manifest_at_install)
     if(_genmanifest_LAYER_DIR_RELATIVE_TO_MANIFEST)
         list(APPEND _genmanifest_fwdargs TARGET_DIR_RELATIVE_TO_MANIFEST
              "${_genmanifest_LAYER_DIR_RELATIVE_TO_MANIFEST}")
+    endif()
+    if(_genmanifest_COMPONENT)
+        list(APPEND _genmanifest_fwdargs COMPONENT "${_genmanifest_COMPONENT}")
     endif()
 
     generate_khr_manifest_at_install(
