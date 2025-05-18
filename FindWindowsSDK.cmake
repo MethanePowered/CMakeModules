@@ -79,6 +79,7 @@ endmacro()
 # although version numbers listed on that page don't necessarily match the directory
 # used by the installer.
 set(_winsdk_win10vers
+	10.0.26100.0
 	10.0.22621.0 # Win11 22H2
 	10.0.22000.0
 	10.0.20348.0
@@ -631,7 +632,7 @@ if(WINDOWSSDK_FOUND)
 		set(_dirs)
 		foreach(_sdkdir ${ARGN})
 			get_windowssdk_include_dirs("${_sdkdir}" _current_sdk_incdirs)
-			if(_current_sdk_libdirs)
+			if(_current_sdk_incdirs)
 				list(APPEND _dirs ${_current_sdk_incdirs})
 			endif()
 		endforeach()
